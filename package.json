@@ -1,0 +1,35 @@
+{
+  "name": "blog-api",
+  "version": "1.0.0",
+  "description": "on advanced api design section this contains the Blogs API",
+  "keywords": [
+    "blog",
+    "advanced",
+    "API",
+    "API",
+    "design"
+  ],
+  "homepage": "https://github.com/abra-abe/blog-APIs#readme",
+  "bugs": {
+    "url": "https://github.com/abra-abe/blog-APIs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abra-abe/blog-APIs.git"
+  },
+  "license": "ISC",
+  "author": "abra-abe",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14",
+    "pg": "^8.20.0",
+    "pino": "^10.3.1"
+  }
+}

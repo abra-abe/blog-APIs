@@ -1,0 +1,16 @@
+const pino = require('pino');
+
+const logger =
+  process.env.NODE_ENV === 'development'
+    ? pino({
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            colorize: true,
+            translateTime: 'SYS:standard',
+          },
+        },
+      })
+    : pino(); // JSON logs for services
+
+module.exports = logger;
