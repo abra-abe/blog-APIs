@@ -1,43 +1,102 @@
-# Blog API (Production-Grade Backend Project)
+# Blog API Scaffold
 
-This project is part of a larger initiative aimed at strengthening backend development skills through the design and implementation of production-ready systems.
+This project is a deliberately small but production-oriented starting point for a Node.js API built with Express and PostgreSQL. It focuses on structure, boundaries, and operational basics instead of feature logic.
 
-## Overview
+## Why this structure
 
-The project is a **production-grade Blog API** that exposes the following core resources:
+The goal is to separate concerns early so the codebase stays manageable as it grows:
 
-- `/posts`
-- `/users`
-- `/comments`
+- `src/app.js`: configures Express and middleware. This file builds the app, but does not start the process.
+- `src/server.js`: starts the HTTP server and owns shutdown behavior.
+- `src/config/`: environment parsing and infrastructure configuration such as PostgreSQL.
+- `src/routes/`: HTTP route registration and versioning.
+- `src/controllers/`: translates HTTP requests into application calls.
+- `src/services/`: place for business logic once the project grows.
+- `src/repositories/`: data-access layer for PostgreSQL queries.
+- `src/middlewares/`: centralized cross-cutting concerns like error handling.
+- `src/utils/`: small reusable helpers such as logging and async wrappers.
 
-These endpoints simulate a real-world blogging platform and are designed with scalability, maintainability, and best practices in mind.
+This separation matters because HTTP concerns, business rules, and database concerns change for different reasons. Keeping them isolated reduces coupling and makes testing easier later.
 
-## Tech Stack
+## Included best practices
 
-- **Runtime:** Node.js  
-- **Framework:** Express.js  
-- **Database:** PostgreSQL  
+- Environment-driven configuration through `.env` and `.env.example`
+- Centralized logger with Pino
+- Security middleware with Helmet
+- Configurable CORS
+- Basic rate limiting
+- Graceful shutdown for the HTTP server and PostgreSQL pool
+- Versioned routes under `/api/v1`
+- Centralized 404 and error handlers
+- A health endpoint that checks app and database readiness without introducing domain logic
 
-## Learning Objectives
+## Project layout
 
-This project is structured to help developers understand and apply key backend engineering concepts, including:
+```text
+src/
+	app.js
+	server.js
+	config/
+		db.js
+		env.js
+	controllers/
+		health.controller.js
+	middlewares/
+		error-handler.js
+		not-found.js
+	repositories/
+		health.repository.js
+	routes/
+		index.js
+		v1/
+			health.routes.js
+			index.js
+	services/
+		health.service.js
+	utils/
+		async-handler.js
+		logger.js
+```
 
-### REST API Design
-- REST Maturity Levels (Richardson Maturity Model)
-- Proper resource modeling and endpoint structuring
+## Run locally
 
-### Data Handling
-- Pagination for large datasets
-- Filtering and sorting of results
+1. Install dependencies:
 
-### API Reliability & Consistency
-- Idempotency in HTTP methods
-- Consistent request/response behavior
+	 ```bash
+	 npm install
+	 ```
 
-### Scalability & Production Readiness
-- Rate limiting to protect services under load
-- API versioning strategies for backward compatibility
+2. Make sure PostgreSQL is running and update your `.env` if needed.
 
-## Purpose
+3. Start the API in development mode:
 
-By working through this project, developers gain hands-on experience solving real backend challenges commonly encountered in production systems, with an emphasis on writing clean, scalable, and maintainable APIs.
+	 ```bash
+	 npm run dev
+	 ```
+
+4. Check the endpoints:
+
+	 - `GET /`
+	 - `GET /api/v1/health`
+
+## Environment variables
+
+The scaffold uses these variables:
+
+- `NODE_ENV`: `development`, `test`, or `production`
+- `HOST`: host interface the server binds to
+- `PORT`: HTTP port
+- `API_PREFIX`: base API prefix, default `/api`
+- `API_VERSION`: route version, default `v1`
+- `DATABASE_URL`: PostgreSQL connection string
+- `DB_SSL`: enables SSL for managed Postgres deployments
+- `CORS_ORIGIN`: `*` or a comma-separated allowlist
+- `TRUST_PROXY`: set to `true` when behind a reverse proxy
+- `RATE_LIMIT_WINDOW_MS`: rate limit window size in milliseconds
+- `RATE_LIMIT_MAX`: max requests allowed in that window
+
+## Notes for learning
+
+- `app.js` and `server.js` are intentionally separate. This is a common production pattern because it keeps the app reusable for tests and makes process lifecycle code easier to reason about.
+- The health feature is the only example route because scaffolding should teach structure, not bury you in placeholder business code.
+- The repository and service layers may feel thin right now. That is normal. They become useful once the project starts accumulating real rules and queries.

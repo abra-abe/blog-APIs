@@ -1,13 +1,14 @@
 {
   "name": "blog-api",
   "version": "1.0.0",
-  "description": "on advanced api design section this contains the Blogs API",
+  "description": "Production-grade Express and PostgreSQL API scaffold for learning backend architecture",
   "keywords": [
     "blog",
     "advanced",
     "API",
-    "API",
-    "design"
+    "design",
+    "express",
+    "postgresql"
   ],
   "homepage": "https://github.com/abra-abe/blog-APIs#readme",
   "bugs": {
@@ -20,16 +21,27 @@
   "license": "ISC",
   "author": "abra-abe",
   "type": "commonjs",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js"
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
   },
   "dependencies": {
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "nodemon": "^3.1.14",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^8.1.0",
     "pg": "^8.20.0",
-    "pino": "^10.3.1"
+    "pino": "^10.3.1",
+    "pino-http": "^11.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "pino-pretty": "^13.1.2"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
